@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exoplanet Facts with Black Hole</title>
+    <title>Exoplanet Facts</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: black;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -27,11 +27,7 @@
             max-width: 800px;
             padding: 2rem;
             text-align: center;
-            position: relative;
             z-index: 1;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            backdrop-filter: blur(5px);
         }
 
         h1 {
@@ -59,8 +55,11 @@
         }
 
         .fact-card {
+            background: rgba(255, 255, 255, 0.1);
             padding: 2rem;
             border-radius: 10px;
+            backdrop-filter: blur(5px);
+            position: relative;
             min-height: 200px;
             display: flex;
             align-items: center;
@@ -80,13 +79,28 @@
             color: #00fff2;
         }
 
-        canvas {
+        /* Galaxy background with twinkling stars */
+        .star {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            from { opacity: 0.2; }
+            to { opacity: 1; }
+        }
+
+        /* Example constellation lines */
+        .constellation {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.5);
+            transform-origin: top left;
         }
     </style>
 </head>
@@ -104,46 +118,15 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Stars and constellations -->
+    <div class="star" style="top: 10%; left: 20%;"></div>
+    <div class="star" style="top: 30%; left: 40%;"></div>
+    <div class="star" style="top: 50%; left: 60%;"></div>
+    <div class="star" style="top: 70%; left: 80%;"></div>
+    <div class="constellation" style="top: 20%; left: 30%; transform: rotate(45deg);"></div>
+    <div class="constellation" style="top: 40%; left: 50%; transform: rotate(-30deg);"></div>
+
     <script>
-        // Black hole simulation using Three.js
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
-
-        // Create a particle system for the accretion disk
-        const particles = new THREE.Geometry();
-        const pMaterial = new THREE.PointsMaterial({
-            color: 0xaaaaaa,
-            size: 0.5,
-            blending: THREE.AdditiveBlending,
-            transparent: true
-        });
-
-        // Create particles
-        for (let i = 0; i < 1000; i++) {
-            const x = Math.random() * 50 - 25;
-            const y = Math.random() * 50 - 25;
-            const z = Math.random() * 50 - 25;
-            particles.vertices.push(new THREE.Vector3(x, y, z));
-        }
-
-        const particleSystem = new THREE.Points(particles, pMaterial);
-        scene.add(particleSystem);
-
-        camera.position.z = 50;
-
-        function animate() {
-            requestAnimationFrame(animate);
-            particleSystem.rotation.y += 0.002;
-            renderer.render(scene, camera);
-        }
-
-        animate();
-
-        // Exoplanet facts script
         const exoplanetData = {
             "exoplanet_facts": [
                 {
