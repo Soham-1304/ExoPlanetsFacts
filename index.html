@@ -112,6 +112,7 @@
            color: #00fff2;
            text-shadow: 0 0 5px rgba(0, 255, 242, 0.5);
         }
+
         /* Constellation styling */
         .constellation {
             position: absolute;
@@ -131,6 +132,7 @@
             display: none;
             white-space: nowrap;
         }
+
         /* Tooltip positioning */
         .constellation::before {
             content: '';
@@ -167,6 +169,7 @@
     <div class="constellation" style="top: 70%; left: 40%;">
         <span class="tooltip">Cassiopeia - The Queen</span>
     </div>
+
     <script>
         const exoplanetData = {
             "exoplanet_facts": [
@@ -232,70 +235,52 @@
                 },
                 {
                     "id": 16,
-                    "fact": "The largest known exoplanet is ROXs 42Bb, with a radius about 2.5 times that of Jupiter"
                     "fact": "Exoplanets come in many types, such as hot Jupiters, super-Earths, and mini-Neptunes"
                 },
                 {
                     "id": 17,
-                    "fact": "Kepler-442b is considered one of the most promising potentially habitable exoplanets"
                     "fact": "The largest known exoplanet is ROXs 42Bb, with a radius about 2.5 times that of Jupiter"
                 },
                 {
                     "id": 18,
-                    "fact": "The temperature on the exoplanet KELT-9b can reach 4,300°C, hotter than some stars"
                     "fact": "Kepler-442b is considered one of the most promising potentially habitable exoplanets"
                 },
                 {
                     "id": 19,
-                    "fact": "Some exoplanets have been found orbiting dead stars called white dwarfs"
                     "fact": "The temperature on the exoplanet KELT-9b can reach 4,300°C, hotter than some stars"
                 },
                 {
                     "id": 20,
-                    "fact": "The James Webb Space Telescope is capable of studying exoplanet atmospheres in unprecedented detail"
                     "fact": "Some exoplanets have been found orbiting dead stars called white dwarfs"
                 }
             ]
         };
 
         let currentFactIndex = 0;
-        // DOM elements
         const factText = document.getElementById('factText');
         const factNumber = document.getElementById('factNumber');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const randomBtn = document.getElementById('randomBtn');
 
-        // Display fact function
         function displayFact(index) {
             const fact = exoplanetData.exoplanet_facts[index];
             factText.textContent = fact.fact;
-            factNumber.textContent = `Fact ${fact.id} of ${exoplanetData.exoplanet_facts.length}`;
             factNumber.textContent = `Fact #${fact.id}`;
         }
 
-        // Event listeners
-        prevBtn.addEventListener('click', () => {
         document.getElementById('prevBtn').addEventListener('click', () => {
             currentFactIndex = (currentFactIndex - 1 + exoplanetData.exoplanet_facts.length) % exoplanetData.exoplanet_facts.length;
             displayFact(currentFactIndex);
         });
 
-        nextBtn.addEventListener('click', () => {
-            currentFactIndex = (currentFactIndex + 1) % exoplanetData.exoplanet_facts.length;
         document.getElementById('randomBtn').addEventListener('click', () => {
             currentFactIndex = Math.floor(Math.random() * exoplanetData.exoplanet_facts.length);
             displayFact(currentFactIndex);
         });
 
-        randomBtn.addEventListener('click', () => {
-            currentFactIndex = Math.floor(Math.random() * exoplanetData.exoplanet_facts.length);
         document.getElementById('nextBtn').addEventListener('click', () => {
             currentFactIndex = (currentFactIndex + 1) % exoplanetData.exoplanet_facts.length;
             displayFact(currentFactIndex);
         });
 
-        // Initialize with first fact
         // Display first fact on page load
         displayFact(currentFactIndex);
     </script>
