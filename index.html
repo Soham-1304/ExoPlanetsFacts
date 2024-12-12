@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exoplanet Facts with Constellations</title>
+    <title>Exoplanet Facts</title>
     <style>
         * {
             margin: 0;
@@ -12,11 +12,10 @@
         }
 
         @keyframes twinkle {
-            0% { opacity: 0.5; }
+            0% { opacity: 0.3; }
             50% { opacity: 1; }
-            100% { opacity: 0.5; }
+            100% { opacity: 0.3; }
         }
-        
         body {
             font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
@@ -28,16 +27,18 @@
             position: relative;
             overflow: hidden;
         }
-
-        .twinkling-stars {
+        body::before {
+            content: '';
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(white, rgba(255,255,255,.2) 1px, transparent 2px);
-            background-size: 5px 5px;
-            animation: twinkle 2s infinite ease-in-out alternate;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 4px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 3px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 4px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            animation: twinkle 8s linear infinite;
             z-index: 1;
         }
 
@@ -111,27 +112,16 @@
            color: #00fff2;
            text-shadow: 0 0 5px rgba(0, 255, 242, 0.5);
         }
-
         /* Constellation styling */
-        svg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 2;
-        }
-
         .constellation {
-            fill: white;
-            stroke: white;
-            stroke-width: 1;
-        }
-
-        .constellation:hover {
+            position: absolute;
+            background: transparent;
+            border-radius: 50%;
             cursor: pointer;
         }
-
+        .constellation:hover .tooltip {
+            display: block;
+        }
         .tooltip {
             position: absolute;
             background: rgba(0, 0, 0, 0.8);
@@ -140,17 +130,20 @@
             border-radius: 5px;
             display: none;
             white-space: nowrap;
-            z-index: 3;
         }
-
-        .constellation:hover + .tooltip {
-            display: block;
+        /* Tooltip positioning */
+        .constellation::before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
         }
     </style>
 </head>
 <body>
-    <div class="twinkling-stars"></div>
-    
     <div class="container">
         <h1>Amazing Exoplanet Facts</h1>
         <div class="controls">
@@ -164,39 +157,16 @@
         </div>
     </div>
 
-    <!-- Adding SVG constellations -->
-    <svg>
-        <!-- Orion Constellation -->
-        <line x1="100" y1="100" x2="150" y2="120" class="constellation" />
-        <line x1="150" y1="120" x2="200" y2="180" class="constellation" />
-        <line x1="200" y1="180" x2="250" y2="150" class="constellation" />
-        <circle cx="100" cy="100" r="3" class="constellation" />
-        <circle cx="150" cy="120" r="3" class="constellation" />
-        <circle cx="200" cy="180" r="3" class="constellation" />
-        <circle cx="250" cy="150" r="3" class="constellation" />
-        <text x="100" y="90" fill="white">Orion</text>
-
-        <!-- Ursa Major Constellation -->
-        <line x1="400" y1="200" x2="450" y2="250" class="constellation" />
-        <line x1="450" y1="250" x2="500" y2="300" class="constellation" />
-        <line x1="500" y1="300" x2="550" y2="270" class="constellation" />
-        <circle cx="400" cy="200" r="3" class="constellation" />
-        <circle cx="450" cy="250" r="3" class="constellation" />
-        <circle cx="500" cy="300" r="3" class="constellation" />
-        <circle cx="550" cy="270" r="3" class="constellation" />
-        <text x="400" y="190" fill="white">Ursa Major</text>
-
-        <!-- Cassiopeia Constellation -->
-        <line x1="600" y1="400" x2="650" y2="450" class="constellation" />
-        <line x1="650" y1="450" x2="700" y2="430" class="constellation" />
-        <line x1="700" y1="430" x2="750" y2="500" class="constellation" />
-        <circle cx="600" cy="400" r="3" class="constellation" />
-        <circle cx="650" cy="450" r="3" class="constellation" />
-        <circle cx="700" cy="430" r="3" class="constellation" />
-        <circle cx="750" cy="500" r="3" class="constellation" />
-        <text x="600" y="390" fill="white">Cassiopeia</text>
-    </svg>
-
+    <!-- Adding constellations -->
+    <div class="constellation" style="top: 20%; left: 10%;">
+        <span class="tooltip">Orion - The Hunter</span>
+    </div>
+    <div class="constellation" style="top: 50%; left: 80%;">
+        <span class="tooltip">Ursa Major - The Great Bear</span>
+    </div>
+    <div class="constellation" style="top: 70%; left: 40%;">
+        <span class="tooltip">Cassiopeia - The Queen</span>
+    </div>
     <script>
         const exoplanetData = {
             "exoplanet_facts": [
@@ -206,40 +176,126 @@
                 },
                 {
                     "id": 2,
-                    "fact": "Kepler-186f was the first Earth-sized exoplanet found in the habitable zone of its star."
+                    "fact": "As of 2023, over 5,000 exoplanets have been confirmed in our galaxy"
                 },
                 {
                     "id": 3,
+                    "fact": "The nearest known exoplanet to Earth is Proxima Centauri b, located 4.2 light-years away"
+                },
+                {
+                    "id": 4,
+                    "fact": "Some exoplanets, called 'rogue planets', float freely in space without orbiting any star"
+                },
+                {
+                    "id": 5,
+                    "fact": "The Kepler Space Telescope has discovered more than 2,600 confirmed exoplanets"
+                },
+                {
+                    "id": 6,
+                    "fact": "HD 189733b is an exoplanet where it rains molten glass sideways in hypersonic winds"
+                },
+                {
+                    "id": 7,
+                    "fact": "WASP-12b is an exoplanet being slowly consumed by its host star"
+                },
+                {
+                    "id": 8,
+                    "fact": "55 Cancri e is an exoplanet that might be made largely of diamond"
+                },
+                {
+                    "id": 9,
+                    "fact": "TrES-2b is the darkest known exoplanet, reflecting less than 1% of the light that hits it"
+                },
+                {
+                    "id": 10,
+                    "fact": "The TRAPPIST-1 system contains seven Earth-sized planets, three of which are in the habitable zone"
+                },
+                {
+                    "id": 11,
+                    "fact": "Some exoplanets, called 'super-Earths', are rocky planets larger than Earth but smaller than Neptune"
+                },
+                {
+                    "id": 12,
+                    "fact": "Kepler-16b is an exoplanet that orbits two stars, like Star Wars' Tatooine"
+                },
+                {
+                    "id": 13,
+                    "fact": "WASP-76b is so hot that iron vaporizes in its atmosphere and rains back down at night"
+                },
+                {
+                    "id": 14,
+                    "fact": "Scientists estimate there could be billions of exoplanets in our Milky Way galaxy alone"
+                },
+                {
+                    "id": 15,
+                    "fact": "Some exoplanets orbit their stars in just a few hours, while others take thousands of years"
+                },
+                {
+                    "id": 16,
+                    "fact": "The largest known exoplanet is ROXs 42Bb, with a radius about 2.5 times that of Jupiter"
                     "fact": "Exoplanets come in many types, such as hot Jupiters, super-Earths, and mini-Neptunes"
+                },
+                {
+                    "id": 17,
+                    "fact": "Kepler-442b is considered one of the most promising potentially habitable exoplanets"
+                    "fact": "The largest known exoplanet is ROXs 42Bb, with a radius about 2.5 times that of Jupiter"
+                },
+                {
+                    "id": 18,
+                    "fact": "The temperature on the exoplanet KELT-9b can reach 4,300°C, hotter than some stars"
+                    "fact": "Kepler-442b is considered one of the most promising potentially habitable exoplanets"
+                },
+                {
+                    "id": 19,
+                    "fact": "Some exoplanets have been found orbiting dead stars called white dwarfs"
+                    "fact": "The temperature on the exoplanet KELT-9b can reach 4,300°C, hotter than some stars"
+                },
+                {
+                    "id": 20,
+                    "fact": "The James Webb Space Telescope is capable of studying exoplanet atmospheres in unprecedented detail"
+                    "fact": "Some exoplanets have been found orbiting dead stars called white dwarfs"
                 }
             ]
         };
 
         let currentFactIndex = 0;
+        // DOM elements
         const factText = document.getElementById('factText');
         const factNumber = document.getElementById('factNumber');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const randomBtn = document.getElementById('randomBtn');
 
+        // Display fact function
         function displayFact(index) {
             const fact = exoplanetData.exoplanet_facts[index];
             factText.textContent = fact.fact;
+            factNumber.textContent = `Fact ${fact.id} of ${exoplanetData.exoplanet_facts.length}`;
             factNumber.textContent = `Fact #${fact.id}`;
         }
 
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
         document.getElementById('prevBtn').addEventListener('click', () => {
             currentFactIndex = (currentFactIndex - 1 + exoplanetData.exoplanet_facts.length) % exoplanetData.exoplanet_facts.length;
             displayFact(currentFactIndex);
         });
 
+        nextBtn.addEventListener('click', () => {
+            currentFactIndex = (currentFactIndex + 1) % exoplanetData.exoplanet_facts.length;
         document.getElementById('randomBtn').addEventListener('click', () => {
             currentFactIndex = Math.floor(Math.random() * exoplanetData.exoplanet_facts.length);
             displayFact(currentFactIndex);
         });
 
+        randomBtn.addEventListener('click', () => {
+            currentFactIndex = Math.floor(Math.random() * exoplanetData.exoplanet_facts.length);
         document.getElementById('nextBtn').addEventListener('click', () => {
             currentFactIndex = (currentFactIndex + 1) % exoplanetData.exoplanet_facts.length;
             displayFact(currentFactIndex);
         });
 
+        // Initialize with first fact
         // Display first fact on page load
         displayFact(currentFactIndex);
     </script>
