@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exoplanet Facts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 2rem;
+            color: #00fff2;
+        }
+
+        .controls {
+            margin-bottom: 2rem;
+        }
+
+        button {
+            background: #4a4e69;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            margin: 0 0.5rem;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #22223b;
+        }
+
+        .fact-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            position: relative;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #factText {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        #factNumber {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            font-size: 0.9rem;
+            color: #00fff2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Amazing Exoplanet Facts</h1>
+        <div class="controls">
+            <button id="prevBtn">Previous</button>
+            <button id="randomBtn">Random Fact</button>
+            <button id="nextBtn">Next</button>
+        </div>
+        <div class="fact-card">
+            <p id="factText"></p>
+            <span id="factNumber"></span>
+        </div>
+    </div>
+
+    <script>
+        const exoplanetData = {
+            "exoplanet_facts": [
+                {
+                    "id": 1,
+                    "fact": "The first confirmed exoplanet discovery was made in 1992, orbiting a pulsar named PSR B1257+12"
+                },
+                {
+                    "id": 2,
+                    "fact": "As of 2023, over 5,000 exoplanets have been confirmed in our galaxy"
+                },
+                {
+                    "id": 3,
+                    "fact": "The nearest known exoplanet to Earth is Proxima Centauri b, located 4.2 light-years away"
+                },
+                {
+                    "id": 4,
+                    "fact": "Some exoplanets, called 'rogue planets', float freely in space without orbiting any star"
+                },
+                {
+                    "id": 5,
+                    "fact": "The Kepler Space Telescope has discovered more than 2,600 confirmed exoplanets"
+                },
+                {
+                    "id": 6,
+                    "fact": "HD 189733b is an exoplanet where it rains molten glass sideways in hypersonic winds"
+                },
+                {
+                    "id": 7,
+                    "fact": "WASP-12b is an exoplanet being slowly consumed by its host star"
+                },
+                {
+                    "id": 8,
+                    "fact": "55 Cancri e is an exoplanet that might be made largely of diamond"
+                },
+                {
+                    "id": 9,
+                    "fact": "TrES-2b is the darkest known exoplanet, reflecting less than 1% of the light that hits it"
+                },
+                {
+                    "id": 10,
+                    "fact": "The TRAPPIST-1 system contains seven Earth-sized planets, three of which are in the habitable zone"
+                },
+                {
+                    "id": 11,
+                    "fact": "Some exoplanets, called 'super-Earths', are rocky planets larger than Earth but smaller than Neptune"
+                },
+                {
+                    "id": 12,
+                    "fact": "Kepler-16b is an exoplanet that orbits two stars, like Star Wars' Tatooine"
+                },
+                {
+                    "id": 13,
+                    "fact": "WASP-76b is so hot that iron vaporizes in its atmosphere and rains back down at night"
+                },
+                {
+                    "id": 14,
+                    "fact": "Scientists estimate there could be billions of exoplanets in our Milky Way galaxy alone"
+                },
+                {
+                    "id": 15,
+                    "fact": "Some exoplanets orbit their stars in just a few hours, while others take thousands of years"
+                },
+                {
+                    "id": 16,
+                    "fact": "The largest known exoplanet is ROXs 42Bb, with a radius about 2.5 times that of Jupiter"
+                },
+                {
+                    "id": 17,
+                    "fact": "Kepler-442b is considered one of the most promising potentially habitable exoplanets"
+                },
+                {
+                    "id": 18,
+                    "fact": "The temperature on the exoplanet KELT-9b can reach 4,300°C, hotter than some stars"
+                },
+                {
+                    "id": 19,
+                    "fact": "Some exoplanets have been found orbiting dead stars called white dwarfs"
+                },
+                {
+                    "id": 20,
+                    "fact": "The James Webb Space Telescope is capable of studying exoplanet atmospheres in unprecedented detail"
+                }
+            ]
+        };
+
+        let currentFactIndex = 0;
+
+        // DOM elements
+        const factText = document.getElementById('factText');
+        const factNumber = document.getElementById('factNumber');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const randomBtn = document.getElementById('randomBtn');
+
+        // Display fact function
+        function displayFact(index) {
+            const fact = exoplanetData.exoplanet_facts[index];
+            factText.textContent = fact.fact;
+            factNumber.textContent = `Fact ${fact.id} of ${exoplanetData.exoplanet_facts.length}`;
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
+            currentFactIndex = (currentFactIndex - 1 + exoplanetData.exoplanet_facts.length) % exoplanetData.exoplanet_facts.length;
+            displayFact(currentFactIndex);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentFactIndex = (currentFactIndex + 1) % exoplanetData.exoplanet_facts.length;
+            displayFact(currentFactIndex);
+        });
+
+        randomBtn.addEventListener('click', () => {
+            currentFactIndex = Math.floor(Math.random() * exoplanetData.exoplanet_facts.length);
+            displayFact(currentFactIndex);
+        });
+
+        // Initialize with first fact
+        displayFact(currentFactIndex);
+    </script>
+</body>
+</html>
